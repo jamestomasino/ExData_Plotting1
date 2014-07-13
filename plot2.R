@@ -46,8 +46,21 @@ d <- read.csv2(localFile,
                header=FALSE, 
                skip=66637, 
                nrows=2880,
-               col.names=colNames)
+               col.names=colNames,
+               na.strings=c("?"))
 
 dt <- paste(d$Date, d$Time)
 d$Date = strptime(dt, "%d/%m/%Y %H:%M:%S")
 d$Time <- NULL
+
+## Plot 1
+
+d$Global_active_power <- as.numeric(levels(d$Global_active_power))[d$Global_active_power]
+
+plot(d$Date, d$Global_active_power, 
+     type="l",
+     ylab="Global Active Power (kilowatts)",
+     xlab="")
+
+dev.copy(png, file="plot2.png")
+dev.off()
