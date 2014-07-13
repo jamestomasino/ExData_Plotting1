@@ -53,7 +53,7 @@ dt <- paste(d$Date, d$Time)
 d$Date = strptime(dt, "%d/%m/%Y %H:%M:%S")
 d$Time <- NULL
 
-## Plot 1
+## Plot 2
 
 d$Global_active_power <- as.numeric(levels(d$Global_active_power))[d$Global_active_power]
 
