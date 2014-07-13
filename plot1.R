@@ -1,3 +1,5 @@
+setwd("Z:\\Users\\tomasino\\Downloads\\exdata_data_household_power_consumption")
+
 ## Retrieve Data
 
 remoteArchive <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
@@ -46,8 +48,20 @@ d <- read.csv2(localFile,
                header=FALSE, 
                skip=66637, 
                nrows=2880,
-               col.names=colNames)
+               col.names=colNames,
+               na.strings=c("?"))
 
 dt <- paste(d$Date, d$Time)
 d$Date = strptime(dt, "%d/%m/%Y %H:%M:%S")
 d$Time <- NULL
+
+## Plot 1
+
+d$Global_active_power <- as.numeric(levels(d$Global_active_power))[d$Global_active_power]
+
+hist(d$Global_active_power,
+     breaks=14, 
+     freq=TRUE, 
+     col="red", 
+     main="Global Active Power", 
+     xlab="Global Active Power (kilowatts)")
