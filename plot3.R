@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 ## Retrieve Data
 
 remoteArchive <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
@@ -12,7 +14,7 @@ if (!file.exists(localFile)) {
   download.file(
     url = remoteArchive,
     destfile = localArchive,
-    method = "auto")
+    method = "curl")
   unzip(localArchive, exdir = "./data")
 }
 
@@ -54,6 +56,8 @@ d$Date = strptime(dt, "%d/%m/%Y %H:%M:%S")
 d$Time <- NULL
 
 ## Plot 3
+png(filename="plot3.png")
+
 d$Sub_metering_1 <- as.numeric(levels(d$Sub_metering_1))[d$Sub_metering_1]
 d$Sub_metering_2 <- as.numeric(levels(d$Sub_metering_2))[d$Sub_metering_2]
 d$Sub_metering_3 <- as.numeric(levels(d$Sub_metering_3))[d$Sub_metering_3]
@@ -66,5 +70,4 @@ legend("topright",
        lwd='1', 
        col=c("black", "red", "blue"))
 
-dev.copy(png, file="plot3.png")
 dev.off()

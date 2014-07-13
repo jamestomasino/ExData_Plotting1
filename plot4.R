@@ -1,3 +1,5 @@
+#!/usr/bin/env Rscript
+
 ## Retrieve Data
 
 remoteArchive <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
@@ -12,7 +14,7 @@ if (!file.exists(localFile)) {
   download.file(
     url = remoteArchive,
     destfile = localArchive,
-    method = "auto")
+    method = "curl")
   unzip(localArchive, exdir = "./data")
 }
 
@@ -55,6 +57,9 @@ d$Time <- NULL
 
 
 #four graphs, 2 per row.
+
+png(filename="plot4.png")
+
 par(mfcol=c(2,2))
 
 ## Plot TL
@@ -97,5 +102,4 @@ plot(d$Date, d$Global_reactive_power,
      ylab="Global Active Power (kilowatts)",
      xlab="datetime")
 
-dev.copy(png, file="plot4.png")
 dev.off()
