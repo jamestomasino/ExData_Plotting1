@@ -46,8 +46,56 @@ d <- read.csv2(localFile,
                header=FALSE, 
                skip=66637, 
                nrows=2880,
-               col.names=colNames)
+               col.names=colNames,
+               na.strings=c("?"))
 
 dt <- paste(d$Date, d$Time)
 d$Date = strptime(dt, "%d/%m/%Y %H:%M:%S")
 d$Time <- NULL
+
+
+#four graphs, 2 per row.
+par(mfcol=c(2,2))
+
+## Plot TL
+
+d$Global_active_power <- as.numeric(levels(d$Global_active_power))[d$Global_active_power]
+
+plot(d$Date, d$Global_active_power, 
+     type="l",
+     ylab="Global Active Power (kilowatts)",
+     xlab="")
+
+
+## Plot BL
+
+d$Sub_metering_1 <- as.numeric(levels(d$Sub_metering_1))[d$Sub_metering_1]
+d$Sub_metering_2 <- as.numeric(levels(d$Sub_metering_2))[d$Sub_metering_2]
+d$Sub_metering_3 <- as.numeric(levels(d$Sub_metering_3))[d$Sub_metering_3]
+
+with(d, plot(Date, Sub_metering_1, type="l", ylab="Energy sub metering", xlab=""))
+with(d, points(Date, Sub_metering_2, type="l", col="red"))
+with(d, points(Date, Sub_metering_3, type="l", col="blue"))
+legend("topright", 
+       c("Sub_metering_1", "Sub_metering_2", "Sub_metering_3"), 
+       lwd='1', 
+       col=c("black", "red", "blue"))
+
+
+## Plot TR
+d$Voltage <- as.numeric(levels(d$Voltage))[d$Voltage]
+plot(d$Date, d$Voltage, 
+     type="l",
+     ylab="Voltage",
+     xlab="datetime")
+
+## Plot BR
+d$Global_reactive_power <- as.numeric(levels(d$Global_reactive_power))[d$Global_reactive_power]
+
+plot(d$Date, d$Global_reactive_power, 
+     type="l",
+     ylab="Global Active Power (kilowatts)",
+     xlab="datetime")
+
+dev.copy(png, file="plot4.png")
+dev.off()
