@@ -1,5 +1,3 @@
-setwd("Z:\\Users\\tomasino\\Downloads\\exdata_data_household_power_consumption")
-
 ## Retrieve Data
 
 remoteArchive <- "https://d396qusza40orc.cloudfront.net/exdata%2Fdata%2Fhousehold_power_consumption.zip"
@@ -65,3 +63,6 @@ hist(d$Global_active_power,
      col="red", 
      main="Global Active Power", 
      xlab="Global Active Power (kilowatts)")
+
+dev.copy(png, file="plot1.png")
+dev.off()
